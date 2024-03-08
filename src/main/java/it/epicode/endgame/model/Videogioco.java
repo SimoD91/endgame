@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,4 +26,7 @@ public class Videogioco {
     private String immagini;
     private String trailer;
     private String recensione;
+
+    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.ALL)
+    private List<Preferiti> preferiti = new ArrayList<>();
 }

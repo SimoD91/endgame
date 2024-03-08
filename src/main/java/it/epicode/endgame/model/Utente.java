@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,19 +24,18 @@ public class Utente implements UserDetails {
     private String username;
     private String password;
     private String email;
-    private String nome;
-    private String cognome;
     private String avatar;
 
     @Enumerated(EnumType.STRING)
     private Tipologia tipologia;
 
-    public Utente(String username, String password, String email, String nome, String cognome) {
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    private List<Preferiti> preferiti = new ArrayList<>();
+
+    public Utente(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.nome = nome;
-        this.cognome = cognome;
         tipologia = Tipologia.USER;
     }
 

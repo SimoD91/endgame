@@ -2,6 +2,7 @@ package it.epicode.endgame.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@NoArgsConstructor
 @Entity
 @Data
 public class Utente implements UserDetails {
@@ -27,6 +29,15 @@ public class Utente implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Tipologia tipologia;
+
+    public Utente(String username, String password, String email, String nome, String cognome) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.nome = nome;
+        this.cognome = cognome;
+        tipologia = Tipologia.USER;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

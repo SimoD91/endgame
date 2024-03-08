@@ -13,9 +13,9 @@ public class Videogioco {
     @Column(name = "id_videogioco")
     private int idVideogioco;
     private String titolo;
-    private int anno;
+    private int annoDiUscita;
     private String genere;
-    private LocalDate uscita;
+    private LocalDate dataDiUscita;
     private String teamDiSviluppo;
     private String paese;
     private int metascore;

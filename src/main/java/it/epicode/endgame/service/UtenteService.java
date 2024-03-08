@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 public class UtenteService {
     @Autowired
@@ -49,7 +48,6 @@ public class UtenteService {
         utente.setEmail(utenteRequest.getEmail());
         utente.setNome(utenteRequest.getNome());
         utente.setCognome(utenteRequest.getCognome());
-        utente.setTipologia(utenteRequest.getTipologia());
 
         return utenteRepository.save(utente);
     }

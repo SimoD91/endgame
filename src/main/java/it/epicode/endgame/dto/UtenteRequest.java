@@ -13,8 +13,8 @@ public class UtenteRequest {
     private String password;
     @NotBlank(message = "Email obbligatoria")
     private String email;
-    @NotBlank(message = "Nome obbligatorio")
-    private String nome;
-    @NotBlank(message = "Cognome obbligatorio")
-    private String cognome;
+//    @NotBlank(message = "Nome obbligatorio")
+//    private String nome;
+//    @NotBlank(message = "Cognome obbligatorio")
+//    private String cognome;
 }

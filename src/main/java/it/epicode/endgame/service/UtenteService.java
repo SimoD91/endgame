@@ -23,8 +23,6 @@ public class UtenteService {
         utente.setUsername(utenteRequest.getUsername());
         utente.setPassword(encoder.encode(utenteRequest.getPassword()));
         utente.setEmail(utenteRequest.getEmail());
-        utente.setNome(utenteRequest.getNome());
-        utente.setCognome(utenteRequest.getCognome());
         utente.setTipologia(Tipologia.USER);
 
         return utenteRepository.save(utente);
@@ -46,8 +44,6 @@ public class UtenteService {
         utente.setUsername(utenteRequest.getUsername());
         utente.setPassword(utenteRequest.getPassword());
         utente.setEmail(utenteRequest.getEmail());
-        utente.setNome(utenteRequest.getNome());
-        utente.setCognome(utenteRequest.getCognome());
 
         return utenteRepository.save(utente);
     }

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -27,6 +25,12 @@ public class Videogioco {
     private String trailer;
     private String recensione;
 
-    @OneToMany(mappedBy = "videogioco", cascade = CascadeType.ALL)
-    private List<Preferiti> preferiti = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "preferiti",
+//            joinColumns = @JoinColumn(name = "id_videogioco"),
+//            inverseJoinColumns = @JoinColumn(name = "id_utente")
+//    )
+
+    private Utente utente;
 }

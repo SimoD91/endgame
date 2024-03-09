@@ -2,6 +2,8 @@ package it.epicode.endgame.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -25,12 +27,12 @@ public class Videogioco {
     private String trailer;
     private String recensione;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "preferiti",
-//            joinColumns = @JoinColumn(name = "id_videogioco"),
-//            inverseJoinColumns = @JoinColumn(name = "id_utente")
-//    )
-
+    @ManyToOne
+    @JoinTable(
+            name = "preferiti",
+            joinColumns = @JoinColumn(name = "id_videogioco"),
+            inverseJoinColumns = @JoinColumn(name = "id_utente")
+    )
     private Utente utente;
+
 }

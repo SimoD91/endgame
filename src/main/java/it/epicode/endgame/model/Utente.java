@@ -1,5 +1,6 @@
 package it.epicode.endgame.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,21 +23,26 @@ public class Utente implements UserDetails {
 
     @Column(unique = true)
     private String username;
+    @JsonIgnore
     private String password;
     @Column(unique = true)
     private String email;
+    private String nome;
+    private String cognome;
     private String avatar;
 
     @Enumerated(EnumType.STRING)
     private Tipologia tipologia;
 
-//    @ManyToMany
-//    private List<Videogioco> preferiti = new ArrayList<>();
+    @OneToMany
+    private List<Videogioco> preferiti = new ArrayList<>();
 
-    public Utente(String username, String password, String email) {
+    public Utente(String username, String password, String email, String nome, String cognome) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.nome = nome;
+        this.cognome = cognome;
         tipologia = Tipologia.USER;
     }
 

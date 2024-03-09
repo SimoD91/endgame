@@ -23,14 +23,15 @@ public class Utente implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
     private String avatar;
 
     @Enumerated(EnumType.STRING)
     private Tipologia tipologia;
 
-    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
-    private List<Preferiti> preferiti = new ArrayList<>();
+//    @ManyToMany
+//    private List<Videogioco> preferiti = new ArrayList<>();
 
     public Utente(String username, String password, String email) {
         this.username = username;

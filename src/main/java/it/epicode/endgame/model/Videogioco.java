@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,12 +28,6 @@ public class Videogioco {
     private String trailer;
     private String recensione;
 
-    @ManyToOne
-    @JoinTable(
-            name = "preferiti",
-            joinColumns = @JoinColumn(name = "id_videogioco"),
-            inverseJoinColumns = @JoinColumn(name = "id_utente")
-    )
-    private Utente utente;
-
+    @ManyToMany(mappedBy = "preferiti")
+    private List<Utente> utente;
 }

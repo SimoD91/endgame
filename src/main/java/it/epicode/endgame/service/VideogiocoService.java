@@ -29,7 +29,6 @@ public class VideogiocoService {
 
     public Videogioco saveVideogioco(VideogiocoRequest videogiocoRequest) {
         Videogioco videogioco = new Videogioco();
-        //Utente utente = utenteService.getUtenteById(videogiocoRequest.getIdUtente());
         videogioco.setTitolo(videogiocoRequest.getTitolo());
         videogioco.setAnnoDiUscita(videogiocoRequest.getAnnoDiUscita());
         videogioco.setGenere(videogiocoRequest.getGenere());
@@ -50,7 +49,6 @@ public class VideogiocoService {
     }
     public Videogioco updateVideogioco(int id, VideogiocoRequest videogiocoRequest) {
         Videogioco videogioco = getVideogiocoById(id);
-        //Utente utente = utenteService.getUtenteById(id);
         videogioco.setTitolo(videogiocoRequest.getTitolo());
         videogioco.setAnnoDiUscita(videogiocoRequest.getAnnoDiUscita());
         videogioco.setGenere(videogiocoRequest.getGenere());

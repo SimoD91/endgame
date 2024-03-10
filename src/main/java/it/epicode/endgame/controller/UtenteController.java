@@ -51,4 +51,5 @@ public class UtenteController {
     public Utente changeTipologia(@PathVariable int id, @RequestBody String tipologia){
         return utenteService.updateTipologiaUtente(id, tipologia);
     }
+
 }

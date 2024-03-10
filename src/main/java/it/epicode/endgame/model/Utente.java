@@ -34,8 +34,13 @@ public class Utente implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Tipologia tipologia;
 
-    @OneToMany
-    private List<Videogioco> preferiti = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "preferiti",
+            joinColumns = @JoinColumn(name = "id_utente"),
+            inverseJoinColumns = @JoinColumn(name = "id_videogioco")
+    )
+    private List<Videogioco> preferiti;
 
     public Utente(String username, String password, String email, String nome, String cognome) {
         this.username = username;

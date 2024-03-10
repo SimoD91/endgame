@@ -4,6 +4,7 @@ import it.epicode.endgame.dto.UtenteRequest;
 import it.epicode.endgame.exception.NotFoundException;
 import it.epicode.endgame.model.Tipologia;
 import it.epicode.endgame.model.Utente;
+import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,12 +17,16 @@ public class UtenteService {
     private UtenteRepository utenteRepository;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private VideogiocoService videogiocoService;
 
     public Utente saveUtente(UtenteRequest utenteRequest) {
         Utente utente = new Utente();
 
         utente.setUsername(utenteRequest.getUsername());
         utente.setPassword(encoder.encode(utenteRequest.getPassword()));
+        utente.setNome(utenteRequest.getNome());
+        utente.setCognome(utenteRequest.getCognome());
         utente.setEmail(utenteRequest.getEmail());
         utente.setTipologia(Tipologia.USER);
 
@@ -61,5 +66,12 @@ public class UtenteService {
             throw new NotFoundException("Utente non trovato");
         }
         utenteRepository.deleteById(id);
+    }
+
+    public Utente savePreferitiUtente(int idUtente, int idVideogioco){
+        Utente utente = getUtenteById(idUtente);
+        Videogioco videogioco = videogiocoService.getVideogiocoById(idVideogioco);
+        utente.getPreferiti().add(videogioco);
+        return utenteRepository.save(utente);
     }
 }

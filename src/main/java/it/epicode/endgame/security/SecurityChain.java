@@ -31,9 +31,11 @@ public class SecurityChain {
         httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll());
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET, "/videogiochi/get/**").permitAll());
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.PUT,"/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.PATCH,"/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/**").hasAnyAuthority(Tipologia.ADMIN.name()));
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/admin/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/videogiochi/**").hasAnyAuthority(Tipologia.USER.name(), Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET, "/**").hasAnyAuthority(Tipologia.USER.name()));
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").denyAll());
 
 

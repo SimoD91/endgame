@@ -1,5 +1,6 @@
 package it.epicode.endgame.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -12,7 +13,8 @@ import java.util.List;
 @Data
 public class Videogioco {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "videogioco_sequence")
+    @SequenceGenerator(name = "videogioco_sequence", initialValue = 1,allocationSize = 1)
     @Column(name = "id_videogioco")
     private int idVideogioco;
     private String titolo;
@@ -28,6 +30,7 @@ public class Videogioco {
     private String trailer;
     private String recensione;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "preferiti")
     private List<Utente> utente;
 }

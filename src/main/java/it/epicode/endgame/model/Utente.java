@@ -17,7 +17,8 @@ import java.util.List;
 @Data
 public class Utente implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "utente_sequence")
+    @SequenceGenerator(name = "utente_sequence", initialValue = 1,allocationSize = 1)
     @Column(name = "id_utente")
     private int idUtente;
 

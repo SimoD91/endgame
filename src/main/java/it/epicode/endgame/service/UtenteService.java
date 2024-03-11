@@ -6,6 +6,7 @@ import it.epicode.endgame.model.Tipologia;
 import it.epicode.endgame.model.Utente;
 import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.repository.UtenteRepository;
+import it.epicode.endgame.repository.VideogiocoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,9 @@ public class UtenteService {
     private UtenteRepository utenteRepository;
     @Autowired
     private PasswordEncoder encoder;
+
     @Autowired
-    private VideogiocoService videogiocoService;
+    private VideogiocoRepository videogiocoRepository;
 
     public Utente saveUtente(UtenteRequest utenteRequest) {
         Utente utente = new Utente();
@@ -68,10 +70,14 @@ public class UtenteService {
         utenteRepository.deleteById(id);
     }
 
-    public Utente savePreferitiUtente(int idUtente, int idVideogioco){
+    public Utente savePreferitiUtente(int idUtente, int idVideogioco) {
         Utente utente = getUtenteById(idUtente);
-        Videogioco videogioco = videogiocoService.getVideogiocoById(idVideogioco);
-        utente.getPreferiti().add(videogioco);
-        return utenteRepository.save(utente);
+        Videogioco videogioco = videogiocoRepository.findById(idVideogioco).orElse(null);
+        if (videogioco != null) {
+            utente.getPreferiti().add(videogioco);
+            return utenteRepository.save(utente);
+        } else {
+            return null;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package it.epicode.endgame.controller;
 
+import it.epicode.endgame.dto.UpdateVideogiocoRequest;
 import it.epicode.endgame.dto.VideogiocoRequest;
 import it.epicode.endgame.exception.BadRequestException;
 import it.epicode.endgame.model.Videogioco;
@@ -19,12 +20,12 @@ public class VideogiocoController {
     @Autowired
     private UtenteService utenteService;
 
-    @GetMapping("/videogiochi")
+    @GetMapping("/videogiochi/get")
     public Page<Videogioco> getAll(Pageable pageable){
         return videogiocoService.getAllVideogiochi(pageable);
     }
 
-    @GetMapping("/videogiochi/{id}")
+    @GetMapping("/videogiochi/get/{id}")
     public Videogioco getVideogiocoById(@PathVariable int id){
         return videogiocoService.getVideogiocoById(id);
     }
@@ -36,7 +37,13 @@ public class VideogiocoController {
         }
         return videogiocoService.updateVideogioco(id, videogiocoRequest);
     }
-
+    @PatchMapping("/videogiochi/{id}")
+    public Videogioco updateVideogiocoPatch(@PathVariable int id, @RequestBody @Validated UpdateVideogiocoRequest updateVideogiocoRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException(bindingResult.getAllErrors().toString());
+        }
+        return videogiocoService.updateVideogiocoPatch(id, updateVideogiocoRequest);
+    }
     @PostMapping("/videogiochi")
     public Videogioco saveVideogioco(@RequestBody @Validated VideogiocoRequest videogiocoRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

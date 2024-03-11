@@ -51,5 +51,8 @@ public class UtenteController {
     public Utente changeTipologia(@PathVariable int id, @RequestBody String tipologia){
         return utenteService.updateTipologiaUtente(id, tipologia);
     }
-
+    @PatchMapping("/utenti/{idUtente}/pref/{idVideogioco}")
+    public Utente aggiungiPreferito(@PathVariable int idUtente, @PathVariable int idVideogioco) {
+        return utenteService.savePreferitiUtente(idUtente, idVideogioco);
+    }
 }

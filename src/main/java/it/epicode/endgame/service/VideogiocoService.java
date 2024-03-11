@@ -1,5 +1,6 @@
 package it.epicode.endgame.service;
 
+import it.epicode.endgame.dto.UpdateVideogiocoRequest;
 import it.epicode.endgame.dto.VideogiocoRequest;
 import it.epicode.endgame.exception.NotFoundException;
 import it.epicode.endgame.model.Utente;
@@ -63,6 +64,49 @@ public class VideogiocoService {
         videogioco.setRecensione(videogiocoRequest.getRecensione());
         return videogiocoRepository.save(videogioco);
     }
+    public Videogioco updateVideogiocoPatch(int id, UpdateVideogiocoRequest updateVideogiocoRequest) {
+        Videogioco videogioco = getVideogiocoById(id);
+
+        if (updateVideogiocoRequest.getTitolo() != null) {
+            videogioco.setTitolo(updateVideogiocoRequest.getTitolo());
+        }
+        if (updateVideogiocoRequest.getAnnoDiUscita() != null) {
+            videogioco.setAnnoDiUscita(updateVideogiocoRequest.getAnnoDiUscita());
+        }
+        if (updateVideogiocoRequest.getGenere() != null) {
+            videogioco.setGenere(updateVideogiocoRequest.getGenere());
+        }
+        if (updateVideogiocoRequest.getDataDiUscita() != null) {
+            videogioco.setDataDiUscita(updateVideogiocoRequest.getDataDiUscita());
+        }
+        if (updateVideogiocoRequest.getTeamDiSviluppo() != null) {
+            videogioco.setTeamDiSviluppo(updateVideogiocoRequest.getTeamDiSviluppo());
+        }
+        if (updateVideogiocoRequest.getPaese() != null) {
+            videogioco.setPaese(updateVideogiocoRequest.getPaese());
+        }
+        if (updateVideogiocoRequest.getMetascore() != null) {
+            videogioco.setMetascore(updateVideogiocoRequest.getMetascore());
+        }
+        if (updateVideogiocoRequest.getPlot() != null) {
+            videogioco.setPlot(updateVideogiocoRequest.getPlot());
+        }
+        if (updateVideogiocoRequest.getPoster() != null) {
+            videogioco.setPoster(updateVideogiocoRequest.getPoster());
+        }
+        if (updateVideogiocoRequest.getImmagini() != null) {
+            videogioco.setImmagini(updateVideogiocoRequest.getImmagini());
+        }
+        if (updateVideogiocoRequest.getTrailer() != null) {
+            videogioco.setTrailer(updateVideogiocoRequest.getTrailer());
+        }
+        if (updateVideogiocoRequest.getRecensione() != null) {
+            videogioco.setRecensione(updateVideogiocoRequest.getRecensione());
+        }
+
+        return videogiocoRepository.save(videogioco);
+    }
+    //metodo inutile?
     public Page<Videogioco> findByUtente(int id, Pageable pageable) {
         Utente utente = utenteService.getUtenteById(id);
         return videogiocoRepository.findByUtente(utente, pageable);

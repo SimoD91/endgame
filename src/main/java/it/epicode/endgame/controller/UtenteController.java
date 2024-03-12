@@ -3,8 +3,11 @@ package it.epicode.endgame.controller;
 import it.epicode.endgame.dto.UtenteRequest;
 import it.epicode.endgame.exception.BadRequestException;
 import it.epicode.endgame.model.Utente;
+import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +54,12 @@ public class UtenteController {
     public Utente changeTipologia(@PathVariable int id, @RequestBody String tipologia){
         return utenteService.updateTipologiaUtente(id, tipologia);
     }
-    @PatchMapping("/utenti/{idUtente}/pref/{idVideogioco}")
+    @PatchMapping("/utenti/{idUtente}/preferiti/{idVideogioco}")
     public Utente aggiungiPreferito(@PathVariable int idUtente, @PathVariable int idVideogioco) {
         return utenteService.savePreferitiUtente(idUtente, idVideogioco);
+    }
+    @GetMapping("/utenti/{idUtente}/preferiti")
+    public Page<Videogioco> getPreferitiPaginati(@PathVariable int idUtente, Pageable pageable) {
+        return utenteService.findPaginatedPreferitiUtente(idUtente, pageable);
     }
 }

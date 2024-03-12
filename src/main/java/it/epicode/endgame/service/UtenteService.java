@@ -8,8 +8,11 @@ import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.repository.UtenteRepository;
 import it.epicode.endgame.repository.VideogiocoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -75,9 +78,18 @@ public class UtenteService {
         Videogioco videogioco = videogiocoRepository.findById(idVideogioco).orElse(null);
         if (videogioco != null) {
             utente.getPreferiti().add(videogioco);
-            return utenteRepository.save(utente);
+            utenteRepository.save(utente);
+            return utente;
         } else {
             return null;
         }
     }
+
+    public Page<Videogioco> findPaginatedPreferitiUtente(int idUtente, Pageable pageable) {
+        return utenteRepository.findPreferitiById(idUtente, pageable);
+    }
+//    @Transactional
+//    public void rimuoviVideogiocoDaiPreferiti(int idVideogioco) {
+//        utenteRepository.rimuoviVideogiocoDaiPreferiti(idVideogioco);
+//    }
 }

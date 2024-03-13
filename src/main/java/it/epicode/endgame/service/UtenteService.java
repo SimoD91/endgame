@@ -1,5 +1,7 @@
 package it.epicode.endgame.service;
 
+import it.epicode.endgame.dto.UpdateUtenteRequest;
+import it.epicode.endgame.dto.UpdateVideogiocoRequest;
 import it.epicode.endgame.dto.UtenteRequest;
 import it.epicode.endgame.exception.NotFoundException;
 import it.epicode.endgame.model.Tipologia;
@@ -60,6 +62,27 @@ public class UtenteService {
         return utenteRepository.save(utente);
     }
 
+    public Utente updateUtentePatch(int id, UpdateUtenteRequest updateUtenteRequest) {
+        Utente utente = getUtenteById(id);
+
+        if (updateUtenteRequest.getUsername() != null) {
+            utente.setUsername(updateUtenteRequest.getUsername());
+        }
+        if (updateUtenteRequest.getPassword() != null) {
+            utente.setPassword(updateUtenteRequest.getPassword());
+        }
+        if (updateUtenteRequest.getEmail() != null) {
+            utente.setEmail(updateUtenteRequest.getEmail());
+        }
+        if (updateUtenteRequest.getNome() != null) {
+            utente.setNome(updateUtenteRequest.getNome());
+        }
+        if (updateUtenteRequest.getCognome() != null) {
+            utente.setCognome(updateUtenteRequest.getCognome());
+        }
+        return utenteRepository.save(utente);
+    }
+
     public Utente updateTipologiaUtente(int id,String tipologia){
         Utente utente = getUtenteById(id);
         utente.setTipologia(Tipologia.valueOf(tipologia));
@@ -88,8 +111,31 @@ public class UtenteService {
     public Page<Videogioco> findPaginatedPreferitiUtente(int idUtente, Pageable pageable) {
         return utenteRepository.findPreferitiById(idUtente, pageable);
     }
-    @Transactional
-    public void rimuoviVideogiocoDaiPreferiti(int idVideogioco) {
-        utenteRepository.rimuoviVideogiocoDaiPreferiti(idVideogioco);
+
+    public Utente removePreferitiUtente(int idUtente, int idVideogioco) {
+        Utente utente = getUtenteById(idUtente);
+        if (utente != null) {
+            Videogioco videogiocoToRemove = null;
+            for (Videogioco videogioco : utente.getPreferiti()) {
+                if (videogioco.getIdVideogioco() == idVideogioco) {
+                    videogiocoToRemove = videogioco;
+                    break;
+                }
+            }
+            if (videogiocoToRemove != null) {
+                utente.getPreferiti().remove(videogiocoToRemove);
+                utenteRepository.save(utente);
+                return utente;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+    public Utente uploadAvatar(int id, String url) {
+        Utente utente = getUtenteById(id);
+        utente.setAvatar(url);
+        return utenteRepository.save(utente);
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class VideogiocoService {
     @Autowired
@@ -34,36 +36,37 @@ public class VideogiocoService {
         videogioco.setAnnoDiUscita(videogiocoRequest.getAnnoDiUscita());
         videogioco.setGenere(videogiocoRequest.getGenere());
         videogioco.setDataDiUscita(videogiocoRequest.getDataDiUscita());
+        videogioco.setConsole(videogiocoRequest.getConsole());
+        videogioco.setPublisher(videogiocoRequest.getPublisher());
         videogioco.setTeamDiSviluppo(videogiocoRequest.getTeamDiSviluppo());
         videogioco.setPaese(videogiocoRequest.getPaese());
         videogioco.setMetascore(videogiocoRequest.getMetascore());
         videogioco.setPlot(videogiocoRequest.getPlot());
-        videogioco.setPoster(videogiocoRequest.getPoster());
-        videogioco.setImmagini(videogiocoRequest.getImmagini());
-        videogioco.setTrailer(videogiocoRequest.getTrailer());
         videogioco.setRecensione(videogiocoRequest.getRecensione());
         return videogiocoRepository.save(videogioco);
     }
+
     public void deleteVideogioco(int id) {
         Videogioco videogioco = getVideogiocoById(id);
         videogiocoRepository.delete(videogioco);
     }
+
     public Videogioco updateVideogioco(int id, VideogiocoRequest videogiocoRequest) {
         Videogioco videogioco = getVideogiocoById(id);
         videogioco.setTitolo(videogiocoRequest.getTitolo());
         videogioco.setAnnoDiUscita(videogiocoRequest.getAnnoDiUscita());
         videogioco.setGenere(videogiocoRequest.getGenere());
         videogioco.setDataDiUscita(videogiocoRequest.getDataDiUscita());
+        videogioco.setConsole(videogiocoRequest.getConsole());
+        videogioco.setPublisher(videogiocoRequest.getPublisher());
         videogioco.setTeamDiSviluppo(videogiocoRequest.getTeamDiSviluppo());
         videogioco.setPaese(videogiocoRequest.getPaese());
         videogioco.setMetascore(videogiocoRequest.getMetascore());
         videogioco.setPlot(videogiocoRequest.getPlot());
-        videogioco.setPoster(videogiocoRequest.getPoster());
-        videogioco.setImmagini(videogiocoRequest.getImmagini());
-        videogioco.setTrailer(videogiocoRequest.getTrailer());
         videogioco.setRecensione(videogiocoRequest.getRecensione());
         return videogiocoRepository.save(videogioco);
     }
+
     public Videogioco updateVideogiocoPatch(int id, UpdateVideogiocoRequest updateVideogiocoRequest) {
         Videogioco videogioco = getVideogiocoById(id);
 
@@ -79,6 +82,12 @@ public class VideogiocoService {
         if (updateVideogiocoRequest.getDataDiUscita() != null) {
             videogioco.setDataDiUscita(updateVideogiocoRequest.getDataDiUscita());
         }
+        if (updateVideogiocoRequest.getConsole() != null) {
+            videogioco.setConsole(updateVideogiocoRequest.getConsole());
+        }
+        if (updateVideogiocoRequest.getPublisher() != null) {
+            videogioco.setPublisher(updateVideogiocoRequest.getPublisher());
+        }
         if (updateVideogiocoRequest.getTeamDiSviluppo() != null) {
             videogioco.setTeamDiSviluppo(updateVideogiocoRequest.getTeamDiSviluppo());
         }
@@ -91,20 +100,27 @@ public class VideogiocoService {
         if (updateVideogiocoRequest.getPlot() != null) {
             videogioco.setPlot(updateVideogiocoRequest.getPlot());
         }
-        if (updateVideogiocoRequest.getPoster() != null) {
-            videogioco.setPoster(updateVideogiocoRequest.getPoster());
-        }
-        if (updateVideogiocoRequest.getImmagini() != null) {
-            videogioco.setImmagini(updateVideogiocoRequest.getImmagini());
-        }
-        if (updateVideogiocoRequest.getTrailer() != null) {
-            videogioco.setTrailer(updateVideogiocoRequest.getTrailer());
-        }
         if (updateVideogiocoRequest.getRecensione() != null) {
             videogioco.setRecensione(updateVideogiocoRequest.getRecensione());
         }
-
         return videogiocoRepository.save(videogioco);
+    }
+
+    public Videogioco uploadCover(int id, String url) {
+        Videogioco videogioco = getVideogiocoById(id);
+        videogioco.setCover(url);
+        return videogiocoRepository.save(videogioco);
+    }
+
+    public Videogioco aggiungiImmagini(int id, String url) {
+        Optional<Videogioco> optionalVideogioco = videogiocoRepository.findById(id);
+        if (optionalVideogioco.isPresent()) {
+            Videogioco videogioco = optionalVideogioco.get();
+            videogioco.getImmagini().add(url);
+            return videogiocoRepository.save(videogioco);
+        } else {
+            throw new IllegalArgumentException("Videogioco non trovato con ID: " + id);
+        }
     }
     //metodo inutile?
     public Page<Videogioco> findByUtente(int id, Pageable pageable) {

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,16 +22,19 @@ public class Videogioco {
     private int annoDiUscita;
     private String genere;
     private LocalDate dataDiUscita;
+    private String console;
+    private String publisher;
     private String teamDiSviluppo;
     private String paese;
     private int metascore;
     private String plot;
-    private String poster;
-    private String immagini;
+    private String cover;
+    private List<String> immagini = new ArrayList<>();
     private String trailer;
     private String recensione;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "preferiti")
     private List<Utente> utente;
+
 }

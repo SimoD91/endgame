@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 public class VideogiocoRequest {
     @NotBlank(message = "Titolo obbligatorio")
@@ -15,6 +17,10 @@ public class VideogiocoRequest {
     private String genere;
     @NotNull(message = "Data di uscita obbligatoria")
     private LocalDate dataDiUscita;
+    @NotNull(message = "Console obbligatoria")
+    private String console;
+    @NotNull(message = "Publisher obbligatorio")
+    private String publisher;
     @NotBlank(message = "Team di sviluppo obbligatorio")
     private String teamDiSviluppo;
     @NotBlank(message = "Paese obbligatorio")
@@ -23,12 +29,6 @@ public class VideogiocoRequest {
     private int metascore;
     @NotBlank(message = "Plot obbligatorio")
     private String plot;
-    @NotBlank(message = "Poster obbligatorio")
-    private String poster;
-    @NotBlank(message = "Immagini obbligatorie")
-    private String immagini;
-    @NotBlank(message = "Trailer obbligatorio")
-    private String trailer;
     @NotBlank(message = "Recensione obbligatoria")
     private String recensione;
 }

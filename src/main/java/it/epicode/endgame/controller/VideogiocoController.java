@@ -54,7 +54,7 @@ public class VideogiocoController {
 
     @DeleteMapping("/videogiochi/{id}")
     public void deleteVideogioco(@PathVariable int id) {
-//        utenteService.rimuoviVideogiocoDaiPreferiti(id);
+        utenteService.rimuoviVideogiocoDaiPreferiti(id);
         videogiocoService.deleteVideogioco(id);
     }
 

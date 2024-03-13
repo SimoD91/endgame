@@ -20,8 +20,8 @@ public interface UtenteRepository extends JpaRepository<Utente, Integer> {
     @Query("SELECT v FROM Utente u JOIN u.preferiti v WHERE u.id = :idUtente")
     Page<Videogioco> findPreferitiById(@Param("idUtente") int idUtente, Pageable pageable);
 
-//    @Transactional
-//    @Modifying
-//    @Query("UPDATE Utente u SET u.preferiti = NULL WHERE :idVideogioco MEMBER OF u.preferiti")
-//    void rimuoviVideogiocoDaiPreferiti(@Param("idVideogioco") int idVideogioco);
+    @Transactional
+    @Modifying
+    @Query("UPDATE Utente u SET u.preferiti = NULL WHERE :idVideogioco MEMBER OF u.preferiti")
+    void rimuoviVideogiocoDaiPreferiti(@Param("idVideogioco") int idVideogioco);
 }

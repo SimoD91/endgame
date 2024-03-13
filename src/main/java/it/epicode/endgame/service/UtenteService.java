@@ -88,8 +88,8 @@ public class UtenteService {
     public Page<Videogioco> findPaginatedPreferitiUtente(int idUtente, Pageable pageable) {
         return utenteRepository.findPreferitiById(idUtente, pageable);
     }
-//    @Transactional
-//    public void rimuoviVideogiocoDaiPreferiti(int idVideogioco) {
-//        utenteRepository.rimuoviVideogiocoDaiPreferiti(idVideogioco);
-//    }
+    @Transactional
+    public void rimuoviVideogiocoDaiPreferiti(int idVideogioco) {
+        utenteRepository.rimuoviVideogiocoDaiPreferiti(idVideogioco);
+    }
 }

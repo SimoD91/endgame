@@ -35,7 +35,7 @@ public class Utente implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Tipologia tipologia;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "preferiti",
             joinColumns = @JoinColumn(name = "id_utente"),

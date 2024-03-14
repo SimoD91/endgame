@@ -54,7 +54,7 @@ public class UtenteService {
         Utente utente = getUtenteById(id);
 
         utente.setUsername(utenteRequest.getUsername());
-        utente.setPassword(utenteRequest.getPassword());
+        utente.setPassword(encoder.encode(utenteRequest.getPassword()));
         utente.setEmail(utenteRequest.getEmail());
         utente.setNome(utenteRequest.getNome());
         utente.setCognome(utenteRequest.getCognome());
@@ -69,7 +69,7 @@ public class UtenteService {
             utente.setUsername(updateUtenteRequest.getUsername());
         }
         if (updateUtenteRequest.getPassword() != null) {
-            utente.setPassword(updateUtenteRequest.getPassword());
+            utente.setPassword(encoder.encode(updateUtenteRequest.getPassword()));
         }
         if (updateUtenteRequest.getEmail() != null) {
             utente.setEmail(updateUtenteRequest.getEmail());

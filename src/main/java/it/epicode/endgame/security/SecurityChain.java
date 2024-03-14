@@ -32,14 +32,8 @@ public class SecurityChain {
 
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll());
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET, "/videogiochi/get/**").permitAll());
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST,"/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.PUT,"/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.PATCH,"/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.DELETE,"/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.PATCH,"/utenti/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.DELETE,"/utenti/**").hasAnyAuthority(Tipologia.ADMIN.name()));
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/admin/**").hasAnyAuthority(Tipologia.ADMIN.name()));
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/**").hasAnyAuthority(Tipologia.USER.name(), Tipologia.ADMIN.name()));
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").denyAll());
 
 

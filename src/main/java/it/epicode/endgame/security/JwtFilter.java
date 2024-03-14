@@ -35,15 +35,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         jwtTools.validateToken(token);
 
-        String username = jwtTools.extractUsernameFromToken(token);
+        String userId = jwtTools.extractUserIdFromToken(token);
 
-        Utente utente = utenteService.getUtenteByUsername(username);
+        Utente utente = utenteService.getUtenteById(Integer.parseInt(userId));
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(utente, null, utente.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
-
     }
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {

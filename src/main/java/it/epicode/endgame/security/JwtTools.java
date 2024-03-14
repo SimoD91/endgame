@@ -20,10 +20,10 @@ public class JwtTools {
 
 
     public String createToken(Utente utente){
-        return Jwts.builder().subject(utente.getUsername()).issuedAt(new Date(System.currentTimeMillis())).
-                expiration(new Date(System.currentTimeMillis()+Long.parseLong(expirationMs))).
-                signWith(Keys.hmacShaKeyFor(secret.getBytes())).compact();
-
+        return Jwts.builder().subject(String.valueOf(utente.getIdUtente()))
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + Long.parseLong(expirationMs)))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes())).compact();
     }
 
     public void validateToken(String token){
@@ -35,8 +35,7 @@ public class JwtTools {
         }
     }
 
-    public String extractUsernameFromToken(String token){
-        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(token).
-                getPayload().getSubject();
+    public String extractUserIdFromToken(String token){
+        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseClaimsJws(token).getBody().getSubject();
     }
 }

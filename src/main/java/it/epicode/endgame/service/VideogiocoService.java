@@ -6,9 +6,11 @@ import it.epicode.endgame.exception.NotFoundException;
 import it.epicode.endgame.model.Utente;
 import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.repository.VideogiocoRepository;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,8 +23,8 @@ public class VideogiocoService {
     @Autowired
     private UtenteService utenteService;
 
-    public Page<Videogioco> getAllVideogiochi(Pageable pageable) {
-        return videogiocoRepository.findAll(pageable);
+    public Page<Videogioco> getAllVideogiochiOrderByTitoloAsc(Pageable pageable) {
+        return videogiocoRepository.findAllByOrderByTitoloAsc(pageable);
     }
 
     public Videogioco getVideogiocoById(int id) throws NotFoundException {
@@ -121,6 +123,21 @@ public class VideogiocoService {
         } else {
             throw new IllegalArgumentException("Videogioco non trovato con ID: " + id);
         }
+    }
+    public Page<Videogioco> getVideogiochiByTitolo(String titolo, Pageable pageable) {
+        return videogiocoRepository.findByTitoloContainingIgnoreCase(titolo, pageable);
+    }
+    public Page<Videogioco> getVideogiochiByAnnoDiUscita(int annoDiUscita, Pageable pageable) {
+        return videogiocoRepository.findByAnnoDiUscita(annoDiUscita, pageable);
+    }
+    public Page<Videogioco> getVideogiochiByGenere(String genere, Pageable pageable) {
+        return videogiocoRepository.findByGenere(genere, pageable);
+    }
+    public Page<Videogioco> getVideogiochiByConsole(String console, Pageable pageable) {
+        return videogiocoRepository.findByConsole(console, pageable);
+    }
+    public Page<Videogioco> getVideogiochiByBestMetascore(int metascore, Pageable pageable) {
+        return videogiocoRepository.findByBestMetascore(metascore, pageable);
     }
     //metodo inutile?
     public Page<Videogioco> findByUtente(int id, Pageable pageable) {

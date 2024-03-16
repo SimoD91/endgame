@@ -6,11 +6,9 @@ import it.epicode.endgame.exception.NotFoundException;
 import it.epicode.endgame.model.Utente;
 import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.repository.VideogiocoRepository;
-import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,6 +41,7 @@ public class VideogiocoService {
         videogioco.setTeamDiSviluppo(videogiocoRequest.getTeamDiSviluppo());
         videogioco.setPaese(videogiocoRequest.getPaese());
         videogioco.setMetascore(videogiocoRequest.getMetascore());
+        videogioco.setPremi(videogiocoRequest.getPremi());
         videogioco.setPlot(videogiocoRequest.getPlot());
         videogioco.setRecensione(videogiocoRequest.getRecensione());
         return videogiocoRepository.save(videogioco);
@@ -64,6 +63,7 @@ public class VideogiocoService {
         videogioco.setTeamDiSviluppo(videogiocoRequest.getTeamDiSviluppo());
         videogioco.setPaese(videogiocoRequest.getPaese());
         videogioco.setMetascore(videogiocoRequest.getMetascore());
+        videogioco.setPremi(videogiocoRequest.getPremi());
         videogioco.setPlot(videogiocoRequest.getPlot());
         videogioco.setRecensione(videogiocoRequest.getRecensione());
         return videogiocoRepository.save(videogioco);
@@ -98,6 +98,9 @@ public class VideogiocoService {
         }
         if (updateVideogiocoRequest.getMetascore() != null) {
             videogioco.setMetascore(updateVideogiocoRequest.getMetascore());
+        }
+        if (updateVideogiocoRequest.getPremi() != null) {
+            videogioco.setPremi(updateVideogiocoRequest.getPremi());
         }
         if (updateVideogiocoRequest.getPlot() != null) {
             videogioco.setPlot(updateVideogiocoRequest.getPlot());
@@ -139,7 +142,6 @@ public class VideogiocoService {
     public Page<Videogioco> getVideogiochiByBestMetascore(int metascore, Pageable pageable) {
         return videogiocoRepository.findByBestMetascore(metascore, pageable);
     }
-    //metodo inutile?
     public Page<Videogioco> findByUtente(int id, Pageable pageable) {
         Utente utente = utenteService.getUtenteById(id);
         return videogiocoRepository.findByUtente(utente, pageable);

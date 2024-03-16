@@ -2,7 +2,6 @@ package it.epicode.endgame.controller;
 
 import com.cloudinary.Cloudinary;
 import it.epicode.endgame.dto.UpdateUtenteRequest;
-import it.epicode.endgame.dto.UpdateVideogiocoRequest;
 import it.epicode.endgame.dto.UtenteRequest;
 import it.epicode.endgame.exception.BadRequestException;
 import it.epicode.endgame.exception.UnAuthorizedException;
@@ -22,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UtenteController {
@@ -32,10 +32,9 @@ public class UtenteController {
     @Autowired
     private JwtTools jwtTools;
     @GetMapping("/utenti")
-    public List<Utente> getAll(){
-        return utenteService.getAllUtenti();
+    public List<Utente> getAllUtentiOrderedByTipologia() {
+        return utenteService.getAllUtentiOrderedByTipologia();
     }
-
     @GetMapping("/utenti/{id}")
     public Utente getUtenteById(@PathVariable int id){
         return utenteService.getUtenteById(id);
@@ -48,7 +47,7 @@ public class UtenteController {
         }
 
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new UnAuthorizedException("Token non fornito o non valido");
+            throw new UnAuthorizedException("Token non fornito o non valido.");
         }
 
         String jwt = token.substring(7);
@@ -56,7 +55,7 @@ public class UtenteController {
 
         Utente utente = utenteService.getUtenteById(id);
         if (utente.getIdUtente() != Integer.parseInt(userIdFromToken)) {
-            throw new UnAuthorizedException("L'utente non è autorizzato a modificare questo profilo");
+            throw new UnAuthorizedException("L'utente non è autorizzato a modificare questo profilo.");
         }
 
         return utenteService.updateUtente(id, utenteRequest);
@@ -72,20 +71,25 @@ public class UtenteController {
     @DeleteMapping("/utenti/{id}")
     public String deleteUtente(@PathVariable int id, @RequestHeader("Authorization") String token) {
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new UnAuthorizedException("Token non fornito o non valido");
+            throw new UnAuthorizedException("Token non fornito o non valido.");
         }
 
         String jwt = token.substring(7);
         String userIdFromToken = jwtTools.extractUserIdFromToken(jwt);
 
         Utente utente = utenteService.getUtenteById(id);
-//        if (!utente.getTipologia().equals(Tipologia.ADMIN))
-            if (utente.getIdUtente() != Integer.parseInt(userIdFromToken)) {
-            throw new UnAuthorizedException("L'utente non è autorizzato a eliminare questo profilo");
+        if (utente.getIdUtente() != Integer.parseInt(userIdFromToken) && !isAdmin(token)) {
+            throw new UnAuthorizedException("L'utente non è autorizzato a eliminare questo profilo.");
         }
 
         utenteService.deleteUtente(id);
         return "Utente cancellato";
+    }
+    private boolean isAdmin(String token) {
+        String jwt = token.substring(7);
+        String userIdFromToken = jwtTools.extractUserIdFromToken(jwt);
+        Utente utente = utenteService.getUtenteById(Integer.parseInt(userIdFromToken));
+        return utente.getTipologia() == Tipologia.ADMIN;
     }
     @PatchMapping("/utenti/{id}")
     public Utente updateUtentePatch(@PathVariable int id, @RequestHeader("Authorization") String token, @RequestBody @Validated UpdateUtenteRequest updateUtenteRequest, BindingResult bindingResult) {
@@ -94,7 +98,7 @@ public class UtenteController {
         }
 
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new UnAuthorizedException("Token non fornito o non valido");
+            throw new UnAuthorizedException("Token non fornito o non valido.");
         }
 
         String jwt = token.substring(7);
@@ -102,25 +106,26 @@ public class UtenteController {
 
         Utente utente = utenteService.getUtenteById(id);
         if (utente.getIdUtente() != Integer.parseInt(userIdFromToken)) {
-            throw new UnAuthorizedException("L'utente non è autorizzato a modificare questo profilo");
+            throw new UnAuthorizedException("L'utente non è autorizzato a modificare questo profilo.");
         }
         return utenteService.updateUtentePatch(id, updateUtenteRequest);
     }
     @PatchMapping("/utenti/tipologia/{id}")
-    public Utente changeTipologia(@PathVariable int id, @RequestBody String tipologia){
+    public Utente changeTipologia(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
+        String tipologia = requestBody.get("tipologia");
         return utenteService.updateTipologiaUtente(id, tipologia);
     }
     @PatchMapping("/utenti/{idUtente}/preferiti/{idVideogioco}")
     public Utente aggiungiPreferito(@PathVariable int idUtente, @PathVariable int idVideogioco, @RequestHeader("Authorization") String token) {
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new UnAuthorizedException("Token non fornito o non valido");
+            throw new UnAuthorizedException("Token non fornito o non valido.");
         }
 
         String jwt = token.substring(7);
         String userIdFromToken = jwtTools.extractUserIdFromToken(jwt);
 
         if (idUtente != Integer.parseInt(userIdFromToken)) {
-            throw new UnAuthorizedException("L'utente non è autorizzato ad aggiungere preferiti per questo profilo");
+            throw new UnAuthorizedException("L'utente non è autorizzato ad aggiungere preferiti per questo profilo.");
         }
 
         return utenteService.savePreferitiUtente(idUtente, idVideogioco);
@@ -128,14 +133,14 @@ public class UtenteController {
     @GetMapping("/utenti/{idUtente}/preferiti")
     public Page<Videogioco> getPreferitiPaginati(@PathVariable int idUtente, Pageable pageable, @RequestHeader("Authorization") String token) {
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new UnAuthorizedException("Token non fornito o non valido");
+            throw new UnAuthorizedException("Token non fornito o non valido.");
         }
 
         String jwt = token.substring(7);
         String userIdFromToken = jwtTools.extractUserIdFromToken(jwt);
 
         if (idUtente != Integer.parseInt(userIdFromToken)) {
-            throw new UnAuthorizedException("L'utente non è autorizzato a visualizzare i preferiti per questo profilo");
+            throw new UnAuthorizedException("L'utente non è autorizzato a visualizzare i preferiti per questo profilo.");
         }
 
         return utenteService.findPaginatedPreferitiUtente(idUtente, pageable);
@@ -144,14 +149,14 @@ public class UtenteController {
     @DeleteMapping("/utenti/{idUtente}/preferiti/{idVideogioco}")
     public Utente rimuoviPreferito(@PathVariable int idUtente, @PathVariable int idVideogioco, @RequestHeader("Authorization") String token) {
         if (token == null || !token.startsWith("Bearer ")) {
-            throw new UnAuthorizedException("Token non fornito o non valido");
+            throw new UnAuthorizedException("Token non fornito o non valido.");
         }
 
         String jwt = token.substring(7);
         String userIdFromToken = jwtTools.extractUserIdFromToken(jwt);
 
         if (idUtente != Integer.parseInt(userIdFromToken)) {
-            throw new UnAuthorizedException("L'utente non è autorizzato a rimuovere preferiti per questo profilo");
+            throw new UnAuthorizedException("L'utente non è autorizzato a rimuovere preferiti per questo profilo.");
         }
 
         return utenteService.removePreferitiUtente(idUtente, idVideogioco);

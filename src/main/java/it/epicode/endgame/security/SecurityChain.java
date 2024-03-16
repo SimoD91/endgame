@@ -34,6 +34,7 @@ public class SecurityChain {
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET, "/videogiochi/get/**").permitAll());
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/**").hasAnyAuthority(Tipologia.USER.name(), Tipologia.ADMIN.name()));
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/tipologia/**").hasAnyAuthority(Tipologia.ADMIN.name()));
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").denyAll());
 
 

@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 public class VideogiocoRequest {
@@ -27,6 +26,8 @@ public class VideogiocoRequest {
     private String paese;
     @NotNull(message = "Metascore obbligatorio")
     private int metascore;
+    @NotNull(message = "Premi obbligatorio")
+    private String premi;
     @NotBlank(message = "Plot obbligatorio")
     private String plot;
     @NotBlank(message = "Recensione obbligatoria")

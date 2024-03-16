@@ -3,8 +3,6 @@ package it.epicode.endgame.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,6 +25,7 @@ public class Videogioco {
     private String teamDiSviluppo;
     private String paese;
     private int metascore;
+    private String premi;
     private String plot;
     private String cover;
     private List<String> immagini = new ArrayList<>();

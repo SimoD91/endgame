@@ -1,7 +1,6 @@
 package it.epicode.endgame.service;
 
 import it.epicode.endgame.dto.UpdateUtenteRequest;
-import it.epicode.endgame.dto.UpdateVideogiocoRequest;
 import it.epicode.endgame.dto.UtenteRequest;
 import it.epicode.endgame.exception.NotFoundException;
 import it.epicode.endgame.model.Tipologia;
@@ -10,11 +9,11 @@ import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.repository.UtenteRepository;
 import it.epicode.endgame.repository.VideogiocoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -42,13 +41,11 @@ public class UtenteService {
     public Utente getUtenteById(int id){
         return utenteRepository.findById(id).orElseThrow(()->new NotFoundException("Utente non trovato"));
     }
-
     public Utente getUtenteByUsername(String username){
         return utenteRepository.findByUsername(username).orElseThrow(()->new NotFoundException("Username non trovato"));
     }
-
-    public List<Utente> getAllUtenti(){
-        return utenteRepository.findAll();
+    public List<Utente> getAllUtentiOrderedByTipologia() {
+        return utenteRepository.findAllByOrderByTipologiaAsc();
     }
     public Utente updateUtente(int id, UtenteRequest utenteRequest){
         Utente utente = getUtenteById(id);
@@ -89,12 +86,17 @@ public class UtenteService {
         return utenteRepository.save(utente);
     }
 
-    public void deleteUtente(int id){
-        if (!utenteRepository.existsById(id)) {
-            throw new NotFoundException("Utente non trovato");
+    public void deleteUtente(int id) {
+        try {
+            utenteRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            return;
         }
-        utenteRepository.deleteById(id);
+        if (utenteRepository.existsById(id)) {
+            throw new NotFoundException("Utente non trovato.");
+        }
     }
+
 
     public Utente savePreferitiUtente(int idUtente, int idVideogioco) {
         Utente utente = getUtenteById(idUtente);

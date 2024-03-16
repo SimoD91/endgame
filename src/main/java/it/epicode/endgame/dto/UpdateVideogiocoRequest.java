@@ -3,7 +3,6 @@ package it.epicode.endgame.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 public class UpdateVideogiocoRequest {
@@ -16,6 +15,7 @@ public class UpdateVideogiocoRequest {
         private String teamDiSviluppo;
         private String paese;
         private Integer metascore;
+        private String premi;
         private String plot;
         private String recensione;
 }

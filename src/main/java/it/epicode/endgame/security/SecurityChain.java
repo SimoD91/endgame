@@ -15,6 +15,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity(debug = true)
 @EnableMethodSecurity
@@ -29,7 +32,6 @@ public class SecurityChain {
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll());
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET, "/videogiochi/get/**").permitAll());
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/videogiochi/**").hasAnyAuthority(Tipologia.ADMIN.name()));
@@ -44,10 +46,11 @@ public class SecurityChain {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
-        cors.addAllowedOrigin("http://www.example.com");
+        cors.setAllowedOrigins(Arrays.asList("http://localhost:4000","http://localhost:4200","http://localhost:8000","http://localhost:8080","127.0.0.1"));
+        cors.addAllowedMethod(HttpMethod.OPTIONS);
         cors.addAllowedMethod(HttpMethod.GET);
         UrlBasedCorsConfigurationSource configurationSource = new UrlBasedCorsConfigurationSource();
-        configurationSource.registerCorsConfiguration("*/**", cors);
+        configurationSource.registerCorsConfiguration("/**", cors);
         return configurationSource;
     }
 }

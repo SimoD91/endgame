@@ -18,6 +18,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity(debug = true)
 @EnableMethodSecurity
@@ -39,18 +41,22 @@ public class SecurityChain {
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/utenti/tipologia/**").hasAnyAuthority(Tipologia.ADMIN.name()));
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").denyAll());
 
-
+        httpSecurity.cors(withDefaults());
         return httpSecurity.build();
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowedOrigins(Arrays.asList("http://localhost:4000","http://localhost:4200","http://localhost:8000","http://localhost:8080","127.0.0.1"));
+        cors.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         cors.addAllowedMethod(HttpMethod.OPTIONS);
         cors.addAllowedMethod(HttpMethod.GET);
+        cors.addAllowedMethod(HttpMethod.POST);
+        cors.addAllowedHeader("Authorization");
+        cors.addAllowedHeader("Content-Type");
         UrlBasedCorsConfigurationSource configurationSource = new UrlBasedCorsConfigurationSource();
         configurationSource.registerCorsConfiguration("/**", cors);
         return configurationSource;
     }
+
 }

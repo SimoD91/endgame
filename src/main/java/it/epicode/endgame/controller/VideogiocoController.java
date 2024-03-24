@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class VideogiocoController {
     @Autowired
     private VideogiocoService videogiocoService;
@@ -97,7 +98,7 @@ public class VideogiocoController {
         if (titolo != null) {
         Page<Videogioco> videogiochi = videogiocoService.getVideogiochiByTitolo(titolo, pageable);
         if (videogiochi.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nessun videogioco trovato con il titolo richiesto.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nessun videogioco trovato con il titolo " + titolo);
         } else {
             return ResponseEntity.ok(videogiochi);
         }

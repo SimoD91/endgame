@@ -146,4 +146,7 @@ public class VideogiocoService {
         Utente utente = utenteService.getUtenteById(id);
         return videogiocoRepository.findByUtente(utente, pageable);
     }
+    public Page<Videogioco> getVideogiochiByTitoloEGenere(String titolo, String genere, Pageable pageable) {
+        return videogiocoRepository.findByTitoloEGenere(titolo, genere, pageable);
+    }
 }

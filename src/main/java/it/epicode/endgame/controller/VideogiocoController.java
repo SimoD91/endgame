@@ -161,4 +161,32 @@ public class VideogiocoController {
             return ResponseEntity.ok(videogiochi);
         }
     }
+
+    @GetMapping("/videogiochi/get/sorted/titoloegenere")
+    public ResponseEntity<?> getVideogiochiByTitoloEGenere(
+            @RequestParam(value = "titolo", required = false) String titolo,
+            @RequestParam(value = "genere", required = false) String genere,
+            Pageable pageable
+    ) {
+        if (titolo == null && genere == null) {
+            return ResponseEntity.badRequest().body("Devi specificare almeno un titolo o un genere.");
+        }
+
+        Page<Videogioco> videogiochi;
+
+        if (titolo != null && genere != null) {
+            videogiochi = videogiocoService.getVideogiochiByTitoloEGenere(titolo, genere, pageable);
+        } else if (titolo != null) {
+            videogiochi = videogiocoService.getVideogiochiByTitolo(titolo, pageable);
+        } else {
+            videogiochi = videogiocoService.getVideogiochiByGenere(genere, pageable);
+        }
+
+        if (videogiochi.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nessun videogioco trovato.");
+        } else {
+            return ResponseEntity.ok(videogiochi);
+        }
+    }
+
 }

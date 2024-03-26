@@ -30,6 +30,8 @@ public class VideogiocoRequest {
     private String premi;
     @NotBlank(message = "Plot obbligatorio")
     private String plot;
+    @NotBlank(message = "Trailer obbligatorio")
+    private String trailer;
     @NotBlank(message = "Recensione obbligatoria")
     private String recensione;
 }

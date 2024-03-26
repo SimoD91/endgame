@@ -17,5 +17,6 @@ public class UpdateVideogiocoRequest {
         private Integer metascore;
         private String premi;
         private String plot;
+        private String trailer;
         private String recensione;
 }

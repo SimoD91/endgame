@@ -17,10 +17,11 @@ public interface VideogiocoRepository extends JpaRepository<Videogioco, Integer>
     Page<Videogioco> findAllByOrderByTitoloAsc(Pageable pageable);
     @Query("SELECT v FROM Videogioco v WHERE v.titolo ILIKE concat('%', :titolo, '%') ORDER BY v.titolo ASC")
     Page<Videogioco> findByTitoloContainingIgnoreCase(String titolo, Pageable pageable);
+    @Query("SELECT v FROM Videogioco v WHERE v.annoDiUscita = :annoDiUscita ORDER BY v.titolo ASC")
     Page<Videogioco> findByAnnoDiUscita(int annoDiUscita, Pageable pageable);
     @Query("SELECT v FROM Videogioco v WHERE v.genere ILIKE concat('%', :genere, '%')")
     Page<Videogioco> findByGenere(String genere, Pageable pageable);
-    @Query("SELECT v FROM Videogioco v WHERE lower(v.console) LIKE lower(concat('%', :console, '%'))")
+    @Query("SELECT v FROM Videogioco v WHERE v.console ILIKE concat('%', :console, '%')")
     Page<Videogioco> findByConsole(String console, Pageable pageable);
     @Query("SELECT v FROM Videogioco v WHERE v.metascore >= :metascore ORDER BY v.metascore DESC")
     Page<Videogioco> findByBestMetascore(int metascore, Pageable pageable);

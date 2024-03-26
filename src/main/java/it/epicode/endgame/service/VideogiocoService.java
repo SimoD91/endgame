@@ -43,6 +43,7 @@ public class VideogiocoService {
         videogioco.setMetascore(videogiocoRequest.getMetascore());
         videogioco.setPremi(videogiocoRequest.getPremi());
         videogioco.setPlot(videogiocoRequest.getPlot());
+        videogioco.setTrailer(videogiocoRequest.getTrailer());
         videogioco.setRecensione(videogiocoRequest.getRecensione());
         return videogiocoRepository.save(videogioco);
     }
@@ -65,6 +66,7 @@ public class VideogiocoService {
         videogioco.setMetascore(videogiocoRequest.getMetascore());
         videogioco.setPremi(videogiocoRequest.getPremi());
         videogioco.setPlot(videogiocoRequest.getPlot());
+        videogioco.setTrailer(videogiocoRequest.getTrailer());
         videogioco.setRecensione(videogiocoRequest.getRecensione());
         return videogiocoRepository.save(videogioco);
     }
@@ -104,6 +106,9 @@ public class VideogiocoService {
         }
         if (updateVideogiocoRequest.getPlot() != null) {
             videogioco.setPlot(updateVideogiocoRequest.getPlot());
+        }
+        if (updateVideogiocoRequest.getTrailer() != null) {
+            videogioco.setTrailer(updateVideogiocoRequest.getTrailer());
         }
         if (updateVideogiocoRequest.getRecensione() != null) {
             videogioco.setRecensione(updateVideogiocoRequest.getRecensione());

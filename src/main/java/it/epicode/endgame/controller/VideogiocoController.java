@@ -151,10 +151,8 @@ public class VideogiocoController {
     }
     @GetMapping("/videogiochi/get/sorted/bestmetascore")
     public ResponseEntity<?> getVideogiochiByMetascoreGreaterThan(
-            @RequestParam(value = "metascore", required = false, defaultValue = "91") int metascore,
-            Pageable pageable
-    ) {
-        Page<Videogioco> videogiochi = videogiocoService.getVideogiochiByBestMetascore(metascore, pageable);
+            @RequestParam(value = "metascore", required = false, defaultValue = "91") int metascore, @RequestParam int page) {
+        Page<Videogioco> videogiochi = videogiocoService.getVideogiochiByBestMetascore(metascore, page);
         if (videogiochi.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nessun videogioco trovato.");
         } else {

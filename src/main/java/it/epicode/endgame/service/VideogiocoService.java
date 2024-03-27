@@ -150,7 +150,8 @@ public class VideogiocoService {
         return videogiocoRepository.findByConsole(console, pageable);
     }
 
-    public Page<Videogioco> getVideogiochiByBestMetascore(int metascore, Pageable pageable) {
+    public Page<Videogioco> getVideogiochiByBestMetascore(int metascore, int page) {
+        Pageable pageable = PageRequest.of(page, 6);
         return videogiocoRepository.findByBestMetascore(metascore, pageable);
     }
 

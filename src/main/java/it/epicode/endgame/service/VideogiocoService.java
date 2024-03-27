@@ -8,6 +8,7 @@ import it.epicode.endgame.model.Videogioco;
 import it.epicode.endgame.repository.VideogiocoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -132,26 +133,38 @@ public class VideogiocoService {
             throw new IllegalArgumentException("Videogioco non trovato con ID: " + id);
         }
     }
+
     public Page<Videogioco> getVideogiochiByTitolo(String titolo, Pageable pageable) {
         return videogiocoRepository.findByTitoloContainingIgnoreCase(titolo, pageable);
     }
+
     public Page<Videogioco> getVideogiochiByAnnoDiUscita(int annoDiUscita, Pageable pageable) {
         return videogiocoRepository.findByAnnoDiUscita(annoDiUscita, pageable);
     }
+
     public Page<Videogioco> getVideogiochiByGenere(String genere, Pageable pageable) {
         return videogiocoRepository.findByGenere(genere, pageable);
     }
+
     public Page<Videogioco> getVideogiochiByConsole(String console, Pageable pageable) {
         return videogiocoRepository.findByConsole(console, pageable);
     }
+
     public Page<Videogioco> getVideogiochiByBestMetascore(int metascore, Pageable pageable) {
         return videogiocoRepository.findByBestMetascore(metascore, pageable);
     }
+
     public Page<Videogioco> findByUtente(int id, Pageable pageable) {
         Utente utente = utenteService.getUtenteById(id);
         return videogiocoRepository.findByUtente(utente, pageable);
     }
+
     public Page<Videogioco> getVideogiochiByTitoloEGenere(String titolo, String genere, Pageable pageable) {
         return videogiocoRepository.findByTitoloEGenere(titolo, genere, pageable);
+    }
+
+    public Page<Videogioco> getPaginatedGames(int page) {
+        Pageable pageable = PageRequest.of(page, 6);
+        return videogiocoRepository.findAll(pageable);
     }
 }

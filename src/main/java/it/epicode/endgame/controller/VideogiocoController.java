@@ -151,7 +151,7 @@ public class VideogiocoController {
     }
     @GetMapping("/videogiochi/get/sorted/bestmetascore")
     public ResponseEntity<?> getVideogiochiByMetascoreGreaterThan(
-            @RequestParam(value = "metascore", required = false, defaultValue = "89") int metascore,
+            @RequestParam(value = "metascore", required = false, defaultValue = "91") int metascore,
             Pageable pageable
     ) {
         Page<Videogioco> videogiochi = videogiocoService.getVideogiochiByBestMetascore(metascore, pageable);
@@ -189,4 +189,8 @@ public class VideogiocoController {
         }
     }
 
+    @GetMapping("/videogiochi/get/paginated")
+    public Page<Videogioco> getPaginatedGames(@RequestParam(defaultValue = "0") int page) {
+        return videogiocoService.getPaginatedGames(page);
+    }
 }

@@ -27,4 +27,5 @@ public interface VideogiocoRepository extends JpaRepository<Videogioco, Integer>
     Page<Videogioco> findByBestMetascore(int metascore, Pageable pageable);
     @Query("SELECT v FROM Videogioco v WHERE v.titolo ILIKE concat('%', :titolo, '%') AND v.genere ILIKE concat('%', :genere, '%')")
     Page<Videogioco> findByTitoloEGenere(String titolo, String genere, Pageable pageable);
+    Page<Videogioco> findAll(Pageable pageable);
 }

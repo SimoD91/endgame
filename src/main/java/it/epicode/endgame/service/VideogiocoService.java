@@ -22,7 +22,8 @@ public class VideogiocoService {
     @Autowired
     private UtenteService utenteService;
 
-    public Page<Videogioco> getAllVideogiochiOrderByTitoloAsc(Pageable pageable) {
+    public Page<Videogioco> getAllVideogiochiOrderByTitoloAsc(int page) {
+        Pageable pageable = PageRequest.of(page, 6);
         return videogiocoRepository.findAllByOrderByTitoloAsc(pageable);
     }
 
@@ -151,7 +152,7 @@ public class VideogiocoService {
     }
 
     public Page<Videogioco> getVideogiochiByBestMetascore(int metascore, int page) {
-        Pageable pageable = PageRequest.of(page, 6);
+        Pageable pageable = PageRequest.of(page, 20);
         return videogiocoRepository.findByBestMetascore(metascore, pageable);
     }
 

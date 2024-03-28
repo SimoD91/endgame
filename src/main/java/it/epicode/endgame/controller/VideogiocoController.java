@@ -36,8 +36,8 @@ public class VideogiocoController {
     private Cloudinary cloudinary;
 
     @GetMapping("/videogiochi/get")
-    public Page<Videogioco> getAll(Pageable pageable) {
-        return videogiocoService.getAllVideogiochiOrderByTitoloAsc(pageable);
+    public Page<Videogioco> getAll( @RequestParam int page) {
+        return videogiocoService.getAllVideogiochiOrderByTitoloAsc(page);
     }
 
     @GetMapping("/videogiochi/get/{id}")

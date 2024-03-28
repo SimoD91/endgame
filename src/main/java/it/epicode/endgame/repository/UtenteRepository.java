@@ -18,5 +18,6 @@ public interface UtenteRepository extends JpaRepository<Utente, Integer> {
     @Query("SELECT v FROM Utente u JOIN u.preferiti v WHERE u.id = :idUtente")
     Page<Videogioco> findPreferitiById(@Param("idUtente") int idUtente, Pageable pageable);
     List<Utente> findAllByOrderByTipologiaAsc();
+    Optional<Utente> findById(int id);
 
 }
